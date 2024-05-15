@@ -2,7 +2,7 @@
   hosts: db
   become: true
   vars:
-    login_host: mysql.devopsnavyahome.online
+    login_host: db.devopsnavyahome.online
   vars_prompt:
     - name: "mysql_root_password"
       prompt: "Please Enter MySQL root password"
