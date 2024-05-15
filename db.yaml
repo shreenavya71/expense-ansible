@@ -1,0 +1,49 @@
+- name: configuring  db server
+  hosts: db
+  become: true
+  vars:
+    login_host: mysql.devopsnavyahome.online
+  vars_prompt:
+    - name: "mysql_root_password"
+      prompt: "Enter MySQL root password"
+      private: no
+  tasks:
+  - name: installing MYSQL server
+    ansible.builtin.dnf:
+      name: mysql-server
+      state: latest
+
+  - name: starting mysql server
+    ansible.builtin.service:
+      name: mysqld 
+      state: started
+      enabled: yes
+  
+  - name: installing mysql dependencies
+    ansible.builtin.pip:
+      name:
+        - PyMYSQL
+        - cryptography
+      executable: pip3.9  # pip3.11 if python version is 3.11 
+
+    # checking password for mysql root is setup or not
+  - name: checking DB connection
+    community.mysql.mysql_info:        # object
+      login_user: root                # fields
+      login_password: "{{ mysql_root_password }}"    # field
+      login_host: "{{ login_host }}" # fields
+      filter: version
+    ignore_errors: yes
+    register: mysql_connection_output
+
+  - name: printing out of a above connection
+    ansible.builtin.debug:
+      msg: "output {{mysql_connection_output}}"
+  
+  - name: setting root password
+    ansible.buitin.command: "mysql_secure_installation --set-root-pass {{ mysql_root_password }}"
+    when: mysql_connection_output.failed is true        # dont give {{  }} in when condition
+
+
+
+
