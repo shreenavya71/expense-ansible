@@ -29,14 +29,14 @@
     # checking password for mysql root is setup or not
   - name: checking DB connection
     community.mysql.mysql_info:        # object
-      login_user: root                # fields
-      login_password: "{{ mysql_root_password }}"    # field
+      login_user: root                # fields.   login into mysql server as a root user 
+      login_password: "{{ mysql_root_password }}"    # field, use the given above password to login into root user
       login_host: "{{ login_host }}" # fields
       filter: version
     ignore_errors: yes
     register: mysql_connection_output
 
-  - name: printing out of a above connection
+  - name: printing output of the above connection
     ansible.builtin.debug:
       msg: "output: {{mysql_connection_output}}"
   
