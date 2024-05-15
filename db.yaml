@@ -5,7 +5,7 @@
     login_host: mysql.devopsnavyahome.online
   vars_prompt:
     - name: "mysql_root_password"
-      prompt: "Enter MySQL root password"
+      prompt: "Please Enter MySQL root password"
       private: no
   tasks:
   - name: installing MYSQL server
