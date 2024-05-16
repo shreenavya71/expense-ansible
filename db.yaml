@@ -13,14 +13,14 @@
       name: mysql-server
       state: latest
 
-  - name: starting mysql server
+  - name: starting and enable mysql server
     ansible.builtin.service:
       name: mysqld 
       state: started
       enabled: yes
   
-  - name: installing mysql dependencies
-    ansible.builtin.pip:
+  - name: installing mysql dependencies # ansible is developed by using python, so to connect to mysql ansible server need below dependencies 
+    ansible.builtin.pip:            #pip is used to install mysql dependencies
       name:
         - PyMYSQL
         - cryptography
